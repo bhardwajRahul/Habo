@@ -426,15 +426,21 @@ class HaboModel {
   }
 
   Future<void> initDatabase({String? testPath}) async {
-    final databasesPath = Platform.isLinux
-        ? (await getApplicationSupportDirectory()).path
-        : await getDatabasesPath();
+    final String databaseFilePath;
+    if (testPath != null) {
+      // Tests can provide an in-memory path and bypass platform channels.
+      databaseFilePath = testPath;
+    } else {
+      final databasesPath = Platform.isLinux
+          ? (await getApplicationSupportDirectory()).path
+          : await getDatabasesPath();
 
-    if (kDebugMode) {
-      print(databasesPath);
+      if (kDebugMode) {
+        print(databasesPath);
+      }
+
+      databaseFilePath = join(databasesPath, 'habo_db0.db');
     }
-
-    final databaseFilePath = testPath ?? join(databasesPath, 'habo_db0.db');
 
     if (Platform.isLinux) {
       ffi.sqfliteFfiInit();
