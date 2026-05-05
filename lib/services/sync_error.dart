@@ -3,6 +3,7 @@
 /// Every exception carries a machine-readable [code] (e.g. `SYNC_PUSH_FAILED`)
 /// and a human-readable [message] suitable for logging. An optional [cause]
 /// preserves the original error for debugging.
+library;
 
 // --- Base ---
 
